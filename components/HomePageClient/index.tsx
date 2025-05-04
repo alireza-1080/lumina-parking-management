@@ -4,6 +4,7 @@ import Form1 from "../Form1";
 import Form2 from "../Form2";
 import { useAppSelector } from "@/redux/hooks";
 import Form3 from "../Form3";
+import toast from "react-hot-toast";
 
 const HomePageClient = () => {
   const slideNumber = useAppSelector((state) => state.slideNumber.value);
@@ -11,6 +12,7 @@ const HomePageClient = () => {
 
   useEffect(() => {
     setLeft(slideNumber * 800)
+    toast(slideNumber.toString())
   }, [slideNumber])
   return (
     <div className="relative h-[400px] w-[800px] overflow-hidden rounded-3xl bg-gray-900/90 backdrop-blur-3xl">

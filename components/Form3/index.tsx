@@ -68,7 +68,7 @@ const Form3 = () => {
           </InputOTP>
           <Button
             onClick={handleEditCarPlate}
-            className="bg-navy-600 hover:bg-navy-700 h-10 w-24 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
+            className="bg-gray-700 hover:bg-navy-600 h-10 w-24 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
             aria-label="Edit car plate number"
           >
             Edit
@@ -93,7 +93,7 @@ const Form3 = () => {
           </InputOTP>
           <Button
             onClick={handleEditPermitNumber}
-            className="bg-navy-600 hover:bg-navy-700 h-10 w-24 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
+            className="bg-gray-700 hover:bg-gray-600 h-10 w-24 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
             aria-label="Edit permit number"
           >
             Edit
@@ -111,7 +111,7 @@ const Form3 = () => {
         </Button>
         <Button
           onClick={handleSubmit}
-          className="flex h-12 w-36 items-center justify-center gap-2 rounded-lg bg-gray-600 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-gray-500"
+          className="flex invisible h-12 w-36 items-center justify-center gap-2 rounded-lg bg-gray-600 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-gray-500"
           aria-label="Reset all details"
         >
           <span>Reset</span>
@@ -119,11 +119,10 @@ const Form3 = () => {
         </Button>
         <Button
           onClick={handleSubmit}
-          className="bg-navy-600 hover:bg-navy-700 flex h-12 w-36 items-center justify-center gap-2 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
+          className="bg-blue-800 hover:bg-blue-700 flex h-12 w-36 items-center justify-center gap-2 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
           aria-label="Submit details"
         >
           <span>Submit</span>
-          <ArrowRight className="h-5 w-5" />
         </Button>
       </div>
     </div>
