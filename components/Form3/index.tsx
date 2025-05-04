@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "../ui/input-otp";
 import { Button } from "../ui/button";
 import { ArrowRight, RotateCcw } from "lucide-react";
-import { slideDecrement, slideReset, slideSet } from "@/redux/slices/slideNumberSlice";
+import { slideReset, slideSet } from "@/redux/slices/slideNumberSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { resetParkingDetails } from "@/redux/slices/parkingDetailesSlice";
 
@@ -10,9 +10,11 @@ const Form3 = () => {
   const dispatch = useAppDispatch();
   const parkingDetails = useAppSelector((state) => state.parkingDetails);
   const { carPlate, permitNumber } = parkingDetails;
+  const submitBtn = useRef<HTMLButtonElement | null>(null);
+  const formElem = useRef<HTMLDivElement | null>(null);
 
   const handlePreviousClick = () => {
-    dispatch(slideDecrement());
+    dispatch(slideSet(2));
   };
 
   const handleSubmit = () => {
@@ -21,15 +23,29 @@ const Form3 = () => {
   };
 
   const handleEditCarPlate = () => {
-    dispatch(slideSet(0));
-  };
-
-  const handleEditPermitNumber = () => {
     dispatch(slideSet(1));
   };
 
+  const handleEditPermitNumber = () => {
+    dispatch(slideSet(2));
+  };
+
+  const handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      submitBtn.current?.click();
+    }
+  };
+
+  useEffect(() => {
+    if (formElem.current) formElem.current.focus();
+  }, []);
+
   return (
-    <div className="animate-fade-in flex h-[400px] w-[800px] flex-col items-center justify-between rounded-xl bg-gray-900 p-12 shadow-md">
+    <div
+      className="animate-fade-in flex h-[400px] w-[800px] flex-col items-center justify-between rounded-xl bg-gray-900 p-12 shadow-md"
+      ref={formElem}
+      onKeyDown={handlePressEnter}
+    >
       <div className="w-full">
         <h2 className="font-serif text-3xl font-bold tracking-tight text-gray-100">Review Details</h2>
       </div>
@@ -68,7 +84,7 @@ const Form3 = () => {
           </InputOTP>
           <Button
             onClick={handleEditCarPlate}
-            className="bg-gray-700 hover:bg-navy-600 h-10 w-24 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
+            className="hover:bg-navy-600 h-10 w-24 rounded-lg bg-gray-700 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
             aria-label="Edit car plate number"
           >
             Edit
@@ -93,7 +109,7 @@ const Form3 = () => {
           </InputOTP>
           <Button
             onClick={handleEditPermitNumber}
-            className="bg-gray-700 hover:bg-gray-600 h-10 w-24 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
+            className="h-10 w-24 rounded-lg bg-gray-700 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-gray-600"
             aria-label="Edit permit number"
           >
             Edit
@@ -111,7 +127,7 @@ const Form3 = () => {
         </Button>
         <Button
           onClick={handleSubmit}
-          className="flex invisible h-12 w-36 items-center justify-center gap-2 rounded-lg bg-gray-600 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-gray-500"
+          className="invisible flex h-12 w-36 items-center justify-center gap-2 rounded-lg bg-gray-600 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-gray-500"
           aria-label="Reset all details"
         >
           <span>Reset</span>
@@ -119,8 +135,9 @@ const Form3 = () => {
         </Button>
         <Button
           onClick={handleSubmit}
-          className="bg-blue-800 hover:bg-blue-700 flex h-12 w-36 items-center justify-center gap-2 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
+          className="flex h-12 w-36 items-center justify-center gap-2 rounded-lg bg-blue-800 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-blue-700"
           aria-label="Submit details"
+          ref={submitBtn}
         >
           <span>Submit</span>
         </Button>

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { Button } from "../ui/button";
-import { slideIncrement, slideDecrement } from "@/redux/slices/slideNumberSlice";
+import { slideSet } from "@/redux/slices/slideNumberSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setPermitNumber } from "@/redux/slices/parkingDetailesSlice";
 import toast from "react-hot-toast";
@@ -10,10 +10,9 @@ import toast from "react-hot-toast";
 const Form2 = () => {
   const dispatch = useAppDispatch();
   const permitNumber = useAppSelector((state) => state.parkingDetails.permitNumber);
-  const slideNumber = useAppSelector(state => state.slideNumber.value)
   const [error, setError] = useState(false);
-  const nextBtn2 = useRef<HTMLButtonElement | null>(null)
-  const otp2 = useRef<HTMLInputElement | null>(null)
+  const nextBtn2 = useRef<HTMLButtonElement | null>(null);
+  const otp2 = useRef<HTMLInputElement | null>(null);
 
   const handleOtpChange = (value: string) => {
     if (!Boolean(Number(value))) {
@@ -32,19 +31,28 @@ const Form2 = () => {
   };
 
   const handleNextClick = () => {
-    dispatch(slideIncrement());
+    dispatch(slideSet(3));
   };
 
   const handlePreviousClick = () => {
-    dispatch(slideDecrement());
+    dispatch(slideSet(1));
+  };
+
+  const handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      nextBtn2.current?.click();
+    }
   };
 
   useEffect(() => {
-    if (slideNumber === 1 && otp2.current) otp2.current.focus()
-  }, [slideNumber])
+    if (otp2.current) otp2.current.focus();
+  }, []);
 
   return (
-    <div className="animate-fade-in flex h-[400px] w-[800px] flex-col items-center justify-between rounded-xl bg-gray-900 p-12 shadow-md">
+    <div
+      className="animate-fade-in flex h-[400px] w-[800px] flex-col items-center justify-between rounded-xl bg-gray-900 p-12 shadow-md"
+      onKeyDown={handlePressEnter}
+    >
       <div className="w-full">
         <h2 className="font-serif text-3xl font-bold tracking-tight text-gray-100">Permit Number</h2>
       </div>
@@ -69,7 +77,7 @@ const Form2 = () => {
       <div className="flex w-full justify-between gap-6">
         <Button
           onClick={handlePreviousClick}
-          className="flex h-12 w-36 items-center justify-center gap-2 rounded-lg bg-gray-700 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-gray-60000"
+          className="hover:bg-gray-60000 flex h-12 w-36 items-center justify-center gap-2 rounded-lg bg-gray-700 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105"
           aria-label="Go to previous step"
         >
           <ArrowRight className="h-5 w-5 rotate-180" />
@@ -86,7 +94,7 @@ const Form2 = () => {
         <Button
           onClick={handleNextClick}
           disabled={permitNumber.length !== 3}
-          className="bg-blue-800 hover:bg-blue-700 flex h-12 w-36 items-center justify-center gap-2 rounded-lg font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 disabled:bg-gray-800 disabled:opacity-50"
+          className="flex h-12 w-36 items-center justify-center gap-2 rounded-lg bg-blue-800 font-sans text-base font-medium text-gray-100 transition-all duration-200 hover:scale-105 hover:bg-blue-700 disabled:bg-gray-800 disabled:opacity-50"
           aria-label="Proceed to next step"
           ref={nextBtn2}
         >

@@ -5,7 +5,7 @@ interface SlideNumber {
 }
 
 const initialState: SlideNumber = {
-  value: 0,
+  value: 1,
 };
 
 const slideNumberSlice = createSlice({
@@ -19,7 +19,7 @@ const slideNumberSlice = createSlice({
       state.value--;
     },
     slideReset: (state) => {
-      state.value = 0
+      state.value = 1
     },
     slideSet: (state, action: PayloadAction<number>) => {
       state.value = action.payload

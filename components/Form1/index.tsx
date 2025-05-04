@@ -5,13 +5,12 @@ import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setCarPlate } from "@/redux/slices/parkingDetailesSlice";
 import { ArrowRight, RotateCcw } from "lucide-react";
-import { slideIncrement } from "@/redux/slices/slideNumberSlice";
+import { slideSet } from "@/redux/slices/slideNumberSlice";
 import toast from "react-hot-toast";
 
 const Form1 = () => {
   const dispatch = useAppDispatch();
   const carDetails = useAppSelector((state) => state.parkingDetails);
-  const slideNumber = useAppSelector((state) => state.slideNumber.value);
   const { carPlate } = carDetails;
   const otp1 = useRef<HTMLInputElement | null>(null);
   const nextBtn1 = useRef<HTMLButtonElement | null>(null);
@@ -29,7 +28,7 @@ const Form1 = () => {
   };
 
   const handleNextClick = () => {
-    dispatch(slideIncrement());
+    dispatch(slideSet(2));
   };
 
   const handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,11 +38,11 @@ const Form1 = () => {
   };
 
   useEffect(() => {
-    if (slideNumber === 0 && otp1.current) otp1.current.focus();
-  }, [slideNumber]);
+    if (otp1.current) otp1.current.focus();
+  }, []);
 
   return (
-    <div className="animate-fade-in flex h-[400px] w-[800px] flex-col items-center justify-between rounded-xl bg-gray-900 p-12 shadow-md">
+    <div className="animate-fade-in flex h-[400px] w-[800px] flex-col items-center justify-between rounded-xl bg-gray-900 p-12 shadow-md" onKeyDown={handlePressEnter}>
       <div className="w-full">
         <h2 className="font-serif text-3xl font-bold tracking-tight text-gray-100">Plate Number</h2>
       </div>
@@ -51,7 +50,6 @@ const Form1 = () => {
         <InputOTP
           maxLength={6}
           value={carPlate}
-          onKeyDown={handlePressEnter}
           onChange={handleOtpChange}
           aria-label="Car plate number"
           ref={otp1}
